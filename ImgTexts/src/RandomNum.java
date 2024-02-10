@@ -10,7 +10,7 @@ public class RandomNum {
 		int randomNum =-1;
 		while (randomNum<1)
 		{
-			randomNum = utils.randomNumber(length);
+			randomNum = Utils.randomNumber(length);
 		}
 		JOptionPane.showMessageDialog(null, "The number is: "+randomNum);
 	}

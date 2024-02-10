@@ -16,22 +16,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
-public class MyFrame extends JFrame implements ActionListener {
+public class Frame extends JFrame implements ActionListener {
 	int counter =0;
 	Thread musicThread; 
 	Thread myFrameThread;
-	MyFrame()
+	private Frame()
 	{
 		
-		Globals.Music = button("mute music", 680,700,150,50,this);
-		Globals.FindAnswer = button("Find the answer", 1075,500,150,50,this);
-		Globals.Calculator = button("Calculator",1100,300 , 100, 50,this);
+		Globals.Music = createButton("mute music", 680,700,150,50,this);
+		Globals.FindAnswer = createButton("Find the answer", 1075,500,150,50,this);
+		Globals.Calculator = createButton("Calculator",1100,300 , 100, 50,this);
 		
 		
-		Globals.mathProblem = button("Questions",300, 300, 100, 50,this);
+		Globals.mathProblem = createButton("Questions",300, 300, 100, 50,this);
 		
 		
-		Globals.RandomNum = button("Random Number",285, 500, 130, 50,this);
+		Globals.RandomNum = createButton("Random Number",285, 500, 130, 50,this);
 		
 		Border border = BorderFactory.createLineBorder(Color.black,3);
 		
@@ -84,7 +84,8 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 		else if(e.getSource()==Globals.mathProblem)
 		{
-			MathProblems.MathProblems();
+			MathQuestions math =MathQuestionsFactory.getInstance();
+			math.use();
 		}
 		else if(e.getSource()==Globals.RandomNum)
 		{
@@ -94,15 +95,21 @@ public class MyFrame extends JFrame implements ActionListener {
 		{
 			int choice =0;
 			do{choice = Integer.parseInt(JOptionPane.showInputDialog("put the number of the choice that you want\n1- Provide an image of the problem\n"
-					+ "2- Write down the problem\n(Remember, this is only a prototype. The answer might not be accurate)"));
+					+ "2- Write down the problem\n3- Change Api Key\n(Remember, this is only a prototype. The answer might not be accurate)"));
 			
-			}while(choice>2 || choice <1);
+			}while(choice>3 || choice <1);
 			if(choice==1)
 			{
 				ImgText.ImgText();
 			}
-			else {
-				JOptionPane.showMessageDialog(null, API.API());
+			else if(choice==2) {
+				Ai ai = AiFactory.getInstance();
+				JOptionPane.showMessageDialog(null, ai.getApi());
+			}
+			else if (choice==3)
+			{
+				Globals.ApiKey = JOptionPane.showInputDialog("Put the new Api Key");
+				JOptionPane.showMessageDialog(null, "the new Api key has been saved");
 			}
 			
 		}
@@ -138,11 +145,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 			
 	}
-	public static Object frame() {
-		MyFrame frame = new MyFrame();
-		return frame;
+	public static Frame view() {
+		return new Frame();
 	}
-	private static JButton button(String name, int x, int y, int width, int height, ActionListener listener)
+	private static JButton createButton(String name, int x, int y, int width, int height, ActionListener listener)
 	{
 		JButton button = new JButton (name);
 		button.setBounds(x, y, width, height);
