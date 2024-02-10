@@ -1,7 +1,7 @@
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import javax.swing.JOptionPane;
-
+//This feature will come later
 public class SaveText {
 	public static void SaveText(String text)
 	{
